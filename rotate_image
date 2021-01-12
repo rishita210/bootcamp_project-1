@@ -1,0 +1,30 @@
+#include <opencv2/highgui/highgui.hpp>
+#include <opencv2/imgproc/imgproc.hpp>
+#include <iostream>
+
+using namespace cv;
+using namespace std;
+
+//rotate function returning mat object with parameters imagefile and angle by which image is to be rotated
+
+Mat rotate(Mat src_img, double angle)       
+{
+    Mat dst_img;      //Mat object for output image file
+    Point2f pt(src_img.cols / 2., src_img.rows / 2.);          //point from where to rotate    
+    Mat r = getRotationMatrix2D(pt, angle, 1.0);      //Mat object for storing after rotation
+    warpAffine(src, dst_img, r, Size(src_img.cols, src_img.rows));  ///apply an affine transforation to image.
+    return dst_img;      
+}
+
+int main()
+{
+    Mat orginal_img = imread("./image/ghibli.jpg");           // reading image file in mat object
+
+    Mat rotated_img;      //Mat object for output image file
+    rotated_img = rotate(original_img, 90);       //rotating image with 90 degree angle
+
+    imshow("original image", original_img);          //displaying input image file
+    imshow("rotated image", rotated_img);            //displaying output image file
+    waitKey(0);                                    
+    return 0;
+}
